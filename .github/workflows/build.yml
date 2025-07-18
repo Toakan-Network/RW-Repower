@@ -1,0 +1,84 @@
+name: build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: [self-hosted, windows]
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup MSBuild Path
+        run: |
+          $msbuildPath = "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe"
+          echo "MSBUILD_PATH=$msbuildPath" >> $env:GITHUB_ENV
+        shell: powershell 
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.0.5
+
+      - name: Restore Packages
+        run: nuget restore Source\RW-Repower.sln
+
+      - name: Build solution
+        run: |
+          & "$env:MSBUILD_PATH" Source\RW-Repower.sln -t:rebuild -property:Configuration=Debug
+        shell: powershell
+      
+      - name: Create Artifacts directory and copy DLL
+        run: |
+          # Create Artifacts directory if it doesn't exist
+          if (-not (Test-Path "Artifacts")) {
+            New-Item -ItemType Directory -Path "Artifacts"
+            Write-Host "Created Artifacts directory"
+          }
+          
+          # Copy the built DLL to Artifacts folder
+          Copy-Item -Path "Source\bin\Debug\RW-Repower.dll" -Destination "Artifacts\RW-Repower.dll"
+          Write-Host "Copied RW-Repower.dll to Artifacts folder"
+        shell: powershell
+      
+      - name: Cleanup build files
+        run: |
+          # Remove build output directories
+          if (Test-Path "Source\bin") {
+            Remove-Item -Recurse -Force "Source\bin"
+            Write-Host "Removed Source\bin directory"
+          }
+          if (Test-Path "Source\obj") {
+            Remove-Item -Recurse -Force "Source\obj"
+            Write-Host "Removed Source\obj directory"
+          }
+          
+          # Remove any package restore artifacts
+          if (Test-Path "packages") {
+            Remove-Item -Recurse -Force "packages"
+            Write-Host "Removed packages directory"
+          }
+          
+          Write-Host "Build cleanup completed"
+        shell: powershell
+      
+      - name: Cleanup workspace
+        if: always()
+        run: |
+          # Clean up the workspace contents (but not the workspace directory itself)
+              # Preserve the Artifacts directory
+          Get-ChildItem -Force | Where-Object { $_.Name -ne "Artifacts" } | ForEach-Object {
+            try {
+              Remove-Item -Path $_.FullName -Recurse -Force
+              Write-Host "Removed: $($_.Name)"
+            } catch {
+              Write-Host "Could not remove: $($_.Name) - $($_.Exception.Message)"
+            }
+          }
+          Write-Host "Workspace cleanup completed (preserved Artifacts directory)"
+        shell: powershell

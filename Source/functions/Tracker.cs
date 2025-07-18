@@ -151,9 +151,8 @@ namespace RW_Repower
         public static void EvalResearchTables()
         {
             if (HiTechResearchBenches == null || HiTechResearchBenches.Count == 0)
-            {
                 return;
-            }
+
             foreach (var researchTable in HiTechResearchBenches)
             {
                 if (researchTable == null) continue;

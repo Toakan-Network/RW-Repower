@@ -164,8 +164,11 @@ namespace RW_Repower
                 AddBuildingUsed(researchTable);
 
                 var facilityAffector = researchTable.GetComp<CompAffectedByFacilities>();
-                if (facilityAffector == null) continue; 
-                AddBuildingUsed(facilityAffector.LinkedFacilitiesListForReading[0] as Building); // Add the first facility linked to the research table as there's no benefit for more anyway.             
+                if (facilityAffector == null) continue;
+                if (facilityAffector.LinkedFacilitiesListForReading.Count > 0)
+                {
+                    AddBuildingUsed(facilityAffector.LinkedFacilitiesListForReading[0] as Building);
+                }
             }
         }
 

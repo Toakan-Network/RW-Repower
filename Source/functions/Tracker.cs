@@ -114,10 +114,7 @@ namespace RW_Repower
         public static void EvalBeds()
         {
             if (MedicalBeds == null || MedicalBeds.Count == 0)
-            {
-                Log.Warning("No medical beds found to evaluate.");
                 return;
-            }
 
             foreach (var mediBed in MedicalBeds)
             {

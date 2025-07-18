@@ -1,0 +1,37 @@
+To add a specific Def, you can Target it like below.
+<defs>
+  <RW_Repower.RePowerDef>
+  <defName>AutodoorsIdle<defName>
+  <targetDef>Autodoor<targetDef>
+</defs>
+
+To add a Class and hit all Defs belonging to it.
+
+<defs>
+	<RW_Repower.RePowerDef>
+    <defName>Building_WorkTable</defName> -- Add a Unique Name for the Def.
+    <className>Building_WorkTable</className> -- Add the ClassName you want the mod to handle for you.
+  </RW_Repower.RePowerDef>
+</defs>
+
+
+
+To add your own Patch for ingame idle power (If you don't like the 10%). You can add a Patch like this.
+
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+<Operation Class="XmlExtensions.PatchOperationSafeAddorReplace">
+    <xpath>Defs/ThingDef[defName="ElectricStove"]</xpath>
+    <compare>Name</compare>
+    <checkAttributes>false</checkAttributes>
+    <safetyDepth>-1</safetyDepth>
+    <value>
+      <comps>
+        <li Class="CompProperties_Power">
+          <idlePowerDraw>10</idlePowerDraw>
+          <basePowerConsumption>350</basePowerConsumption>
+        </li>
+      </comps>
+    </value>
+  </Operation>
+</Patch>

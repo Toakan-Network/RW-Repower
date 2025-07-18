@@ -1,0 +1,44 @@
+<Defs>
+<!-- List Vanilla Classes to Use for RePower -->
+  <RW_Repower.RePowerDef>
+    <defName>Building_WorkTable</defName>
+    <className>Building_WorkTable</className>
+  </RW_Repower.RePowerDef>
+  <RW_Repower.RePowerDef>
+    <defName>Building_WorkTable_HeatPush</defName>
+    <className>Building_WorkTable_HeatPush</className>
+  </RW_Repower.RePowerDef>
+  <RW_Repower.RePowerDef>
+    <defName>RPW_ResearchBenches</defName>
+    <className>Building_ResearchBench</className>
+  </RW_Repower.RePowerDef>
+  <!-- List Vanilla Defs to Use for RePower -->
+  <RW_Repower.RePowerDef>
+    <defName>AutodoorsIdle</defName>
+    <targetDef>Autodoor</targetDef>
+  </RW_Repower.RePowerDef>
+  <RW_Repower.RePowerDef>
+    <defName>VitalsMonitorIdle</defName>
+    <targetDef>VitalsMonitor</targetDef>
+  </RW_Repower.RePowerDef>
+  <RW_Repower.RePowerDef>
+    <defName>MultiAnalyzerIdle</defName>
+    <targetDef>MultiAnalyzer</targetDef>
+  </RW_Repower.RePowerDef>
+  <RW_Repower.RePowerDef>
+    <defName>FlatscreenTelevisionIdle</defName>
+    <targetDef>FlatscreenTelevision</targetDef>
+  </RW_Repower.RePowerDef>
+  <RW_Repower.RePowerDef>
+    <defName>DeepDrillIdle</defName>
+    <targetDef>DeepDrill</targetDef>
+  </RW_Repower.RePowerDef>
+  <RW_Repower.RePowerDef>
+    <defName>TubeTelevisionIdle</defName>
+    <targetDef>TubeTelevision</targetDef>
+  </RW_Repower.RePowerDef>
+  <RW_Repower.RePowerDef>
+    <defName>MegascreenTelevisionIdle</defName>
+    <targetDef>MegascreenTelevision</targetDef>
+  </RW_Repower.RePowerDef>
+</Defs>

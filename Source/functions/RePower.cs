@@ -112,6 +112,9 @@ namespace RW_Repower.functions
         public static float GetPowerSetting(Building building, bool isActive)
         {
             var powerComp = building.TryGetComp<CompPowerTrader>();
+            if (powerComp == null || powerComp.Props == null)
+                return 0f;
+
             basePower = powerComp.Props.PowerConsumption;
 
             if (!(basePower < 0f && (basePower > 0f)))

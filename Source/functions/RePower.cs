@@ -71,7 +71,14 @@ namespace RW_Repower.functions
 
         public static void SetPower(Building building, bool IsActive)
         {
+            if (building == null || !building.Spawned || !building.def.IsBuildingArtificial)
+                return;
+
             var powerComp = building.TryGetComp<CompPowerTrader>();
+
+            if (powerComp == null || powerComp.Props == null)
+                return;
+
             powerComp.PowerOutput = GetPowerSetting(building, IsActive);
         }
 

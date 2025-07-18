@@ -73,6 +73,7 @@ jobs:
           # Copy specific directories and files we want in the release
           Copy-Item "About" -Destination "$releaseDir\About" -Recurse -Force
           Copy-Item "Assemblies" -Destination "$releaseDir\Assemblies" -Recurse -Force
+          Copy-Item "Defs" -Destination "$releaseDir\Defs" -Recurse -Force
           Copy-Item "LICENSE" -Destination "$releaseDir\LICENSE" -Force
           Copy-Item "README.md" -Destination "$releaseDir\README.md" -Force
           

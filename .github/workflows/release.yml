@@ -1,10 +1,7 @@
 name: release
 
 on:
-  workflow_run:
-    workflows: ["build"]
-    types:
-      - completed
+  push:
     branches:
       - main
 
@@ -19,6 +16,37 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Setup MSBuild Path
+        run: |
+          $msbuildPath = "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe"
+          echo "MSBUILD_PATH=$msbuildPath" >> $env:GITHUB_ENV
+        shell: powershell 
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.0.5
+
+      - name: Restore Packages
+        run: nuget restore Source\RW-Repower.sln
+
+      - name: Build solution
+        run: |
+          & "$env:MSBUILD_PATH" Source\RW-Repower.sln -t:rebuild -property:Configuration=Debug
+        shell: powershell
+      
+      - name: Create Artifacts directory and copy DLL
+        run: |
+          # Create Artifacts directory if it doesn't exist
+          if (-not (Test-Path "Artifacts")) {
+            New-Item -ItemType Directory -Path "Artifacts"
+            Write-Host "Created Artifacts directory"
+          }
+          
+          # Copy the built DLL to Artifacts folder
+          Copy-Item -Path "Source\bin\Debug\RW-Repower.dll" -Destination "Artifacts\RW-Repower.dll"
+          Write-Host "Copied RW-Repower.dll to Artifacts folder"
+        shell: powershell
+      
       
       - name: Prepare Assemblies folder
         run: |

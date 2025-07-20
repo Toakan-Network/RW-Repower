@@ -56,7 +56,7 @@ namespace RW_Repower.functions
                 int lastTick = kvp.Value != 0 ? kvp.Value : 0;
 
                 if (building == null) continue;
-                
+
                 if (lastTick == currentTick && Tracker.BuildingsToModify.Contains(building))
                 {
                     Tracker.AddBuildingUsed(building);
@@ -75,7 +75,6 @@ namespace RW_Repower.functions
                 return;
 
             var powerComp = building.TryGetComp<CompPowerTrader>();
-
             if (powerComp == null || powerComp.Props == null)
                 return;
 
@@ -90,7 +89,7 @@ namespace RW_Repower.functions
             var defs = DefDatabase<RePowerDef>.AllDefs;
             Things = DefDatabase<ThingDef>.AllDefsListForReading
                .Where(d => d.IsBuildingArtificial && d.HasComp(typeof(CompPowerTrader))
-               && defs.Any(rpd => (rpd.className == d.thingClass?.Name) || (rpd.targetDef == d.defName ))
+               && defs.Any(rpd => (rpd.className == d.thingClass?.Name) || (rpd.targetDef == d.defName))
                ).ToList();
 
             var loadedDefs = new List<string>();
@@ -118,7 +117,7 @@ namespace RW_Repower.functions
 
         public static float GetPowerSetting(Building building, bool isActive)
         {
-            var powerComp = building.TryGetComp<CompPowerTrader>();
+            var powerComp = building?.TryGetComp<CompPowerTrader>();
             if (powerComp == null || powerComp.Props == null)
                 return 0f;
 
